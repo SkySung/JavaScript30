@@ -18,7 +18,7 @@
 
   <style>
     html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background: #EFEFEF;
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -62,12 +62,48 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      /*預設的是50%，會從中心做rotate，我們將它設為100%即可讓它在尾部做旋轉*/
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function:cubic-bezier(0.13, 0.58, 0.55, 1.38);/*很酷的跳動效果，修改其值參考style中的ease-in-out*/
     }
-
   </style>
-
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+
+    function setDate() {
+      const now = new Date(); //設置一個now常數為Date物件
+      const seconds = now.getSeconds(); //Date物件中的getSeconds函式可以得到現在時間的秒數。
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      //console.log(seconds);
+      const mins = now.getMinutes();
+      const minutesDegrees = ((mins / 60) * 360) + 90;
+      minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+      
+      const hours = now.getHours();
+      const hoursDegrees = ((hours * 30) + (mins/2) ) + 90;
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    } 
+
+    setInterval(setDate, 1000);
+
+    setDate();
+
+    /*function setHours() {
+      const hours = now.getHours();
+      if(hours>12) {
+        hours = hours- 12
+        return hours
+      }
+      const hoursDegrees = ((hours * 30) + (mins/2) ) + 90;
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    }
+    //setInterval(setHours, 60000)*/
 
   </script>
 </body>
