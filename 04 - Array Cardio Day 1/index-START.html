@@ -35,27 +35,55 @@
       'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
     ];
     
-    // Array.prototype.filter()
+    // Array.prototype.filter() 會經過函式判斷，原陣列中的元素通過的會組成新陣列。
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const fifteen = inventors.filter( inventor => {
+      if(inventor.year >= 1500 && inventor.year < 1600) {
+        return true; //該inventor保留住，這裡不用再寫else return flase了。
+      }
+    });
 
-    // Array.prototype.map()
+    console.table(fifteen);//這個console厲害!
+
+    // Array.prototype.map() 丟入一個陣列，return一個有相同數量元素的陣列。
     // 2. Give us an array of the inventors first and last names
+    const fullnames = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+    console.log(fullnames);
 
-    // Array.prototype.sort()
+    // Array.prototype.sort() 每次抓兩個item做sort，比較其值，賦予其1與-1，最後做排序
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const ordered = inventors.sort((a, b) => a.year > b.year ? 1 : -1 );
 
-    // Array.prototype.reduce()
+    console.table(ordered);
+    // Array.prototype.reduce() 這個函式挺複雜的，大概是排序後再做一些計算，在成陣列？
     // 4. How many years did all the inventors live all together?
-
+    const totalYears = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year);
+    }, 0);//這裡的0作為初始值，不然沒辦法開始跑。
+    console.log(totalYears)
     // 5. Sort the inventors by years lived
+    const oldest = inventors.sort((a, b) => {
+      const lastGuy = a.passed - a.year;
+      const nextGuy = b.passed - b.year;
+      return lastGuy > nextGuy ? -1 :1;
+    });
 
+    console.table(oldest)    
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    //const category = document.querySelectorAll('.mw-category');
+    //const links = category.querySelectorAll('a');
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
 
+    const alphaSort = people.sort((lastOne, nextOne) => {
+      const [aLast, aFirst] = lastOne.split(', ');//以, 隔開
+      const [bLast, bFirst] = nextOne.split(', ');
+      return aLast > bLast ? 1 : -1;
+    });
+    console.log(alphaSort);
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
